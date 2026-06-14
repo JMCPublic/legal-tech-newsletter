@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M1.0 Legal Technology Newsletter Source Board</title>
+  <style>
+    :root {
+      --ink: #17202a;
+      --muted: #5f6b76;
+      --line: #d7dde3;
+      --paper: #f7f4ee;
+      --panel: #ffffff;
+      --accent: #0f6d68;
+      --accent-soft: #e3f3f1;
+      --gold: #b8862f;
+      --blue: #234f79;
+      --red: #8c3b35;
+      --green: #34745c;
+      --shadow: 0 16px 38px rgba(23, 32, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        linear-gradient(135deg, rgba(15, 109, 104, 0.08), rgba(184, 134, 47, 0.06)),
+        var(--paper);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 42px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      padding: 24px 0 26px;
+      border-bottom: 3px solid var(--ink);
+    }
+
+    .kicker {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 820px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(34px, 6vw, 66px);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .issue {
+      min-width: 180px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .issue span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .issue strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 22px;
+      margin: 26px 0;
+      align-items: stretch;
+    }
+
+    .scroll-note {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin: -6px 0 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .scroll-note strong {
+      color: var(--ink);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .mini-columns {
+      display: flex;
+      gap: 7px;
+      margin: 0 -16px 16px;
+      padding: 0 16px 10px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) rgba(23, 32, 42, 0.12);
+    }
+
+    .view-switcher {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      margin: -2px 0 18px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--blue);
+      background: var(--panel);
+    }
+
+    .view-explainer {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .view-card {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 11px;
+      border: 1px solid #edf0f2;
+      background: #fbfcfc;
+    }
+
+    .view-card strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--ink);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .view-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .view-diagram {
+      position: relative;
+      display: grid;
+      gap: 4px;
+      place-items: center;
+      min-height: 50px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .view-diagram span {
+      display: block;
+      width: 34px;
+      height: 8px;
+      background: #dfe6e8;
+    }
+
+    .view-diagram.horizontal {
+      display: flex;
+      gap: 3px;
+      justify-content: center;
+    }
+
+    .view-diagram.horizontal span {
+      width: 13px;
+    }
+
+    .view-diagram.horizontal::before,
+    .view-diagram.horizontal::after,
+    .view-diagram.vertical::before,
+    .view-diagram.vertical::after {
+      position: absolute;
+      color: var(--accent);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .view-diagram.horizontal::before {
+      content: "<";
+      left: 3px;
+    }
+
+    .view-diagram.horizontal::after {
+      content: ">";
+      right: 3px;
+    }
+
+    .view-diagram.vertical::before {
+      content: "^";
+      top: 2px;
+    }
+
+    .view-diagram.vertical::after {
+      content: "v";
+      bottom: 2px;
+    }
+
+    .view-actions {
+      display: flex;
+      flex: 0 0 auto;
+      gap: 8px;
+    }
+
+    .view-button {
+      padding: 8px 10px;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      background: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .view-button.is-active {
+      color: #ffffff;
+      border-color: var(--ink);
+      background: var(--ink);
+    }
+
+    body.view-mobile .grid {
+      overflow-x: visible;
+      overflow-y: visible;
+      flex-wrap: wrap;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    body.view-mobile .box {
+      flex: 1 1 100%;
+      min-width: 0;
+      height: auto;
+    }
+
+    body.view-mobile .sources {
+      overflow-y: visible;
+    }
+
+    body.view-mobile .mini-columns {
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .mini-columns[data-board-target="corporate"] .mini-column {
+      border-color: #c9bfdc;
+      border-top-color: #5b5277;
+      background: #f0e9f8;
+    }
+
+    .mini-columns[data-board-target="corporate"] .mini-column .mini-lines span {
+      background: #d1c5e4;
+    }
+
+    .mini-columns[data-board-target="corporate"] .mini-column.is-active {
+      border-color: #5b5277;
+      background: #e6dcf2;
+      box-shadow: inset 0 0 0 2px rgba(91, 82, 119, 0.26);
+    }
+
+    .mini-column {
+      display: grid;
+      position: relative;
+      flex: 0 0 92px;
+      min-height: 88px;
+      padding: 7px;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--accent);
+      background: var(--panel);
+      text-decoration: none;
+      box-shadow: 0 5px 14px rgba(23, 32, 42, 0.07);
+    }
+
+    .mini-column:nth-child(2) {
+      border-top-color: var(--blue);
+    }
+
+    .mini-column:nth-child(3) {
+      border-top-color: var(--red);
+    }
+
+    .mini-column:nth-child(4) {
+      border-top-color: var(--green);
+    }
+
+    .mini-column:nth-child(5) {
+      border-top-color: var(--gold);
+    }
+
+    .mini-column:nth-child(6) {
+      border-top-color: #5b5277;
+    }
+
+    .mini-column:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 9px 18px rgba(23, 32, 42, 0.12);
+    }
+
+    .mini-column.is-active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: inset 0 0 0 2px rgba(15, 109, 104, 0.18);
+    }
+
+    .mini-rank {
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+      display: grid;
+      width: 20px;
+      height: 20px;
+      place-items: center;
+      color: #ffffff;
+      border-radius: 50%;
+      background: var(--ink);
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .mini-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.1;
+      padding-right: 18px;
+    }
+
+    .mini-lines {
+      display: grid;
+      align-content: start;
+      gap: 3px;
+      margin-top: 6px;
+    }
+
+    .mini-lines span {
+      display: block;
+      height: 3px;
+      background: #dfe6e8;
+    }
+
+    .mini-lines span:nth-child(odd) {
+      width: 86%;
+    }
+
+    .mini-lines span:nth-child(even) {
+      width: 62%;
+    }
+
+    .intro-copy,
+    .editor-note {
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .intro-copy p,
+    .editor-note p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .editor-note {
+      border-top: 5px solid var(--gold);
+    }
+
+    .grid {
+      display: flex;
+      gap: 18px;
+      margin: 0 -16px;
+      padding: 4px 16px 20px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x proximity;
+      scrollbar-color: var(--accent) rgba(23, 32, 42, 0.12);
+      scrollbar-width: thin;
+    }
+
+    .board[hidden] {
+      display: none;
+    }
+
+    .grid::-webkit-scrollbar {
+      height: 12px;
+    }
+
+    .grid::-webkit-scrollbar-track {
+      background: rgba(23, 32, 42, 0.1);
+    }
+
+    .grid::-webkit-scrollbar-thumb {
+      border: 3px solid rgba(247, 244, 238, 0.95);
+      background: var(--accent);
+    }
+
+    .box {
+      display: flex;
+      flex: 0 0 calc((100% - 72px) / 5);
+      min-width: 220px;
+      height: clamp(620px, 72vh, 760px);
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-top: 6px solid var(--accent);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      scroll-snap-align: start;
+    }
+
+    .box.is-loop-copy {
+      opacity: 0.94;
+    }
+
+    .box:nth-child(2) {
+      border-top-color: var(--blue);
+    }
+
+    .box:nth-child(3) {
+      border-top-color: var(--red);
+    }
+
+    .box:nth-child(4) {
+      border-top-color: var(--green);
+    }
+
+    .box:nth-child(5) {
+      border-top-color: var(--gold);
+    }
+
+    .box:nth-child(6) {
+      border-top-color: #5b5277;
+    }
+
+    .box-head {
+      padding: 18px 18px 12px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 244, 238, 0.52));
+    }
+
+    .box-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .topic-index {
+      margin: 12px 0 0;
+      padding-top: 11px;
+      border-top: 1px solid rgba(23, 32, 42, 0.1);
+    }
+
+    .topic-index-title {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .topic-index-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .topic-index-links a {
+      display: inline-flex;
+      max-width: 100%;
+      padding: 5px 7px;
+      color: var(--accent);
+      border: 1px solid #cbdfe0;
+      background: var(--accent-soft);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-decoration: none;
+    }
+
+    .topic-index-links a:hover {
+      border-color: var(--accent);
+      background: #ffffff;
+    }
+
+    .source {
+      scroll-margin-top: 24px;
+    }
+
+    .sources {
+      display: grid;
+      gap: 12px;
+      min-height: 0;
+      padding: 16px 18px 18px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) rgba(23, 32, 42, 0.1);
+    }
+
+    .source {
+      padding-bottom: 12px;
+      border-bottom: 1px solid #edf0f2;
+    }
+
+    .source:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .source a {
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .source a:hover {
+      text-decoration: underline;
+    }
+
+    .source p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    footer {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .page-end {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      margin-top: 16px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent);
+      background: var(--panel);
+    }
+
+    .page-end p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .home-button {
+      flex: 0 0 auto;
+      padding: 9px 13px;
+      color: #ffffff;
+      background: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .home-button:hover {
+      background: var(--accent);
+    }
+
+    @media (max-width: 940px) {
+      header,
+      .intro {
+        grid-template-columns: 1fr;
+      }
+
+      .issue {
+        width: fit-content;
+      }
+
+      .grid {
+        margin-left: -12px;
+        margin-right: -12px;
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .box {
+        flex-basis: min(320px, 78vw);
+        height: min(680px, 76vh);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 22px, 1180px);
+        padding-top: 18px;
+      }
+
+      header {
+        gap: 16px;
+        padding-bottom: 20px;
+      }
+
+      .grid {
+        gap: 14px;
+        overflow-x: visible;
+        overflow-y: visible;
+        flex-wrap: wrap;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .box {
+        flex: 1 1 100%;
+        min-width: 0;
+        height: auto;
+      }
+
+      .sources {
+        overflow-y: visible;
+      }
+
+      .intro {
+        margin: 18px 0;
+      }
+
+      .view-switcher {
+        align-items: flex-start;
+        grid-template-columns: 1fr;
+      }
+
+      .view-explainer {
+        grid-template-columns: 1fr;
+      }
+
+      .view-actions {
+        width: 100%;
+      }
+
+      .view-button {
+        flex: 1 1 0;
+      }
+
+      .page-end {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .intro-copy,
+      .editor-note,
+      .box-head,
+      .sources {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .box,
+      .issue,
+      .page-end {
+        box-shadow: none;
+      }
+
+      a {
+        color: #000000;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page" id="top">
+    <header>
+      <div>
+        <p class="kicker">M1.0 Model 1.0 source board for a legal technology newsletter</p>
+        <h1>Technology Signals for the Legal Profession</h1>
+      </div>
+      <aside class="issue">
+        <span>Model Version</span>
+        <strong>M1.0</strong>
+      </aside>
+    </header>
+
+    <section class="intro">
+      <div class="intro-copy">
+        <p>This source mix is designed for lawyers, in-house counsel, compliance teams, legal ops, and practice leaders who need technology news translated into legal risk, workflow change, client advice, and professional responsibility.</p>
+      </div>
+      <div class="editor-note">
+        <p>Suggested lens for every item: what happened, why lawyers should care, the risk or opportunity, and what to watch next.</p>
+      </div>
+    </section>
+
+    <section class="view-switcher" aria-label="Viewing mode">
+      <div class="view-explainer">
+        <div class="view-card">
+          <div class="view-diagram vertical" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <p><strong>Scroll</strong> Read up and down as stacked sections. Best for mobile.</p>
+        </div>
+        <div class="view-card">
+          <div class="view-diagram horizontal" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <p><strong>Carousel</strong> Browse left and right across ranked topic columns. Best for desktop.</p>
+        </div>
+      </div>
+      <div class="view-actions">
+        <button class="view-button" type="button" data-view-mode="mobile">Scroll</button>
+        <button class="view-button is-active" type="button" data-view-mode="carousel">Carousel</button>
+      </div>
+    </section>
+
+    <div class="scroll-note" data-board-note="corporate">
+      <strong>Corporate Law</strong>
+      <span>Pick a corporate-law lens to switch into that carousel; pick the general strip to return.</span>
+    </div>
+
+    <nav class="mini-columns" data-board-target="corporate" aria-label="Mini index of corporate law columns"></nav>
+
+    <div class="scroll-note" data-board-note="general">
+      <strong>General</strong>
+      <span>Click a ranked topic to bring that column to the front; the list wraps around.</span>
+    </div>
+
+    <nav class="mini-columns" data-board-target="general" aria-label="Mini index of general newsletter columns"></nav>
+
+    <section class="grid board" data-board="general" aria-label="Newsletter source categories">
+      <article class="box">
+        <div class="box-head">
+          <h2>Core Legal-Tech Sources</h2>
+          <p>Use these for the main pulse of legal software, AI tools, practice systems, and business-of-law changes.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.lawnext.com/" target="_blank" rel="noopener">LawSites / LawNext</a>
+            <p>Bob Ambrogi tracks legal tech launches, product moves, legal AI, and market shifts with strong industry context.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.artificiallawyer.com/" target="_blank" rel="noopener">Artificial Lawyer</a>
+            <p>Best for legal AI, automation, contract tools, and the practical direction of legal innovation.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.law.com/legaltechnews/" target="_blank" rel="noopener">Legaltech News</a>
+            <p>Enterprise legal technology coverage, especially useful for BigLaw, vendors, litigation support, and legal operations.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.abajournal.com/topic/legal+technology" target="_blank" rel="noopener">ABA Journal Legal Technology</a>
+            <p>Broad, lawyer-friendly technology coverage that is easy to turn into accessible newsletter items.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.legaldive.com/" target="_blank" rel="noopener">Legal Dive</a>
+            <p>Useful for in-house legal, compliance, legal operations, department strategy, and technology adoption.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>AI + Law Sources</h2>
+          <p>Use these to spot AI developments before they become client questions, court problems, or firm strategy debates.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://hai.stanford.edu/news" target="_blank" rel="noopener">Stanford HAI</a>
+            <p>Reliable research and policy analysis on AI governance, safety, and social impact.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.technologyreview.com/topic/artificial-intelligence/" target="_blank" rel="noopener">MIT Technology Review AI</a>
+            <p>High-quality reporting on broader AI trends that can be translated into legal risk and opportunity.</p>
+          </div>
+          <div class="source">
+            <a href="https://openai.com/news/" target="_blank" rel="noopener">OpenAI News</a>
+            <p>Primary source for OpenAI product, model, safety, and enterprise updates that lawyers may need to understand.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic News</a>
+            <p>Primary source for Claude, AI safety, enterprise AI, and model governance announcements.</p>
+          </div>
+          <div class="source">
+            <a href="https://blog.google/technology/ai/" target="_blank" rel="noopener">Google AI Blog</a>
+            <p>Useful for Google AI products, search changes, model releases, and enterprise technology shifts.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.wired.com/category/artificial-intelligence/" target="_blank" rel="noopener">Wired AI</a>
+            <p>Strong reporting on AI liability, platform behavior, regulation, and real-world consequences.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.theguardian.com/technology/artificialintelligenceai" target="_blank" rel="noopener">The Guardian AI</a>
+            <p>Good for public-sector AI stories, court technology, civil justice concerns, and UK-facing legal angles.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Regulation + Policy</h2>
+          <p>Use these for official guidance, privacy developments, AI governance, consumer protection, and compliance signals.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://ico.org.uk/" target="_blank" rel="noopener">ICO</a>
+            <p>Essential UK source for data protection, privacy enforcement, and AI-related regulatory guidance.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.nist.gov/artificial-intelligence" target="_blank" rel="noopener">NIST AI</a>
+            <p>Important for AI risk frameworks, standards, measurement, and governance language clients may adopt.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.ftc.gov/policy/advocacy-research/tech-at-ftc" target="_blank" rel="noopener">FTC Technology Blog</a>
+            <p>Useful for US privacy, AI claims, consumer protection, dark patterns, and enforcement direction.</p>
+          </div>
+          <div class="source">
+            <a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" target="_blank" rel="noopener">European Commission AI Act</a>
+            <p>Primary source for EU AI Act developments and regulatory framing affecting international clients.</p>
+          </div>
+          <div class="source">
+            <a href="https://iapp.org/news/" target="_blank" rel="noopener">IAPP News</a>
+            <p>Strong daily privacy, data protection, AI governance, and regulatory analysis for legal professionals.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Courts + Ethics</h2>
+          <p>Use these to track professional duties, AI misuse warnings, court technology, and rule changes for lawyers.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.lawsociety.org.uk/topics/ai-and-lawtech" target="_blank" rel="noopener">Law Society AI and Lawtech</a>
+            <p>UK-focused guidance on AI, lawtech, professional practice, and responsible adoption by solicitors.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.sra.org.uk/" target="_blank" rel="noopener">Solicitors Regulation Authority</a>
+            <p>Primary source for solicitor regulation, professional expectations, warnings, and compliance updates.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.americanbar.org/groups/professional_responsibility/" target="_blank" rel="noopener">ABA Center for Professional Responsibility</a>
+            <p>Useful for US ethics rules, opinions, competence duties, and professional responsibility debates.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.judiciary.uk/" target="_blank" rel="noopener">Courts and Tribunals Judiciary</a>
+            <p>Official UK judiciary source for court announcements, practice changes, guidance, and digital justice updates.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Cybersecurity Sources</h2>
+          <p>Use these for ransomware, vulnerabilities, breach risk, law firm security, and client-facing cyber advice.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.cisa.gov/news-events/cybersecurity-advisories" target="_blank" rel="noopener">CISA Cybersecurity Advisories</a>
+            <p>Official alerts on vulnerabilities, incidents, and defensive actions that matter to regulated organizations.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.ncsc.gov.uk/" target="_blank" rel="noopener">NCSC UK</a>
+            <p>Clear, practical UK cyber guidance for firms, businesses, boards, and professional services teams.</p>
+          </div>
+          <div class="source">
+            <a href="https://krebsonsecurity.com/" target="_blank" rel="noopener">Krebs on Security</a>
+            <p>Excellent independent reporting on cybercrime, breaches, ransomware, and fraud infrastructure.</p>
+          </div>
+          <div class="source">
+            <a href="https://therecord.media/" target="_blank" rel="noopener">The Record</a>
+            <p>Strong cyber news source for ransomware, threat intelligence, state activity, and incident reporting.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Business + Startup Sources</h2>
+          <p>Use these to track legal AI funding, product bets, acquisitions, vendor strategy, and market direction.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://techcrunch.com/" target="_blank" rel="noopener">TechCrunch</a>
+            <p>Good for startup funding, legal AI companies, product launches, and acquisition news.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.theinformation.com/" target="_blank" rel="noopener">The Information</a>
+            <p>Deep technology business reporting, useful for understanding strategy behind major platform moves.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.businessinsider.com/tech" target="_blank" rel="noopener">Business Insider Tech</a>
+            <p>Useful for legal AI startup stories, enterprise software, investors, and tech-company strategy.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Vendor + Product Signals</h2>
+          <p>Use these as product intelligence rather than neutral reporting, then check important claims against independent sources.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.harvey.ai/blog" target="_blank" rel="noopener">Harvey Blog</a>
+            <p>Vendor signal for legal AI product direction, enterprise adoption, and professional-services use cases.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.lexisnexis.com/community/insights/legal/" target="_blank" rel="noopener">LexisNexis Legal Insights</a>
+            <p>Product, research, and practice commentary from a major legal information and AI provider.</p>
+          </div>
+          <div class="source">
+            <a href="https://legal.thomsonreuters.com/blog/" target="_blank" rel="noopener">Thomson Reuters Legal Blog</a>
+            <p>Useful for legal research, AI, practice management, legal operations, and market reports.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.clio.com/blog/" target="_blank" rel="noopener">Clio Blog</a>
+            <p>Good for small-firm technology, practice management, client experience, and legal industry trends.</p>
+          </div>
+          <div class="source">
+            <a href="https://ironcladapp.com/blog/" target="_blank" rel="noopener">Ironclad Blog</a>
+            <p>Strong signal on contract lifecycle management, in-house legal operations, and commercial contracting workflows.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.relativity.com/blog/" target="_blank" rel="noopener">Relativity Blog</a>
+            <p>Useful for e-discovery, investigations, data management, and litigation technology trends.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.csdisco.com/blog" target="_blank" rel="noopener">DISCO Blog</a>
+            <p>Litigation technology, legal AI, e-discovery, and case management product perspective.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.litera.com/blog/" target="_blank" rel="noopener">Litera Blog</a>
+            <p>Useful for document workflows, drafting, deal work, and law firm productivity systems.</p>
+          </div>
+          <div class="source">
+            <a href="https://contractpodai.com/news-and-events/" target="_blank" rel="noopener">ContractPodAi News</a>
+            <p>Vendor signal for legal AI, contract management, and in-house legal transformation.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.legora.com/news" target="_blank" rel="noopener">Legora News</a>
+            <p>Vendor source for collaborative legal AI, firm adoption announcements, and product direction.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Academic + Research</h2>
+          <p>Use these when the newsletter needs more depth than trade news: evidence, methods, risks, and future-facing ideas.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.ssrn.com/index.cfm/en/lsn/" target="_blank" rel="noopener">SSRN Legal Scholarship Network</a>
+            <p>Useful for working papers on law, technology, AI governance, regulation, and professional responsibility.</p>
+          </div>
+          <div class="source">
+            <a href="https://arxiv.org/list/cs.AI/recent" target="_blank" rel="noopener">arXiv AI Papers</a>
+            <p>Early technical research source for AI developments that may later affect legal tools and evidence.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.law.berkeley.edu/research/bclt/" target="_blank" rel="noopener">Berkeley Center for Law and Technology</a>
+            <p>Research and events at the intersection of law, IP, privacy, technology, and regulation.</p>
+          </div>
+          <div class="source">
+            <a href="https://law.stanford.edu/codex-the-stanford-center-for-legal-informatics/" target="_blank" rel="noopener">Stanford CodeX</a>
+            <p>Legal informatics, computational law, AI and justice, and academic perspectives on legal technology.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid board" data-board="corporate" aria-label="Corporate law technology categories" hidden>
+      <article class="box">
+        <div class="box-head">
+          <h2>Client Contracting + Procurement</h2>
+          <p>For consulting deals, managed services, change control, liability caps, statements of work, and contracting workflows.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.worldcc.com/">World Commerce &amp; Contracting</a>
+            <p>Contracting research, commercial practice, and negotiation trends for complex client work.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.ironcladapp.com/blog/">Ironclad Blog</a>
+            <p>CLM signals for contract automation, approval workflows, and legal ops in commercial contracting.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.gov.uk/government/collections/procurement-act-2023-guidance-documents">UK Procurement Act Guidance</a>
+            <p>Public procurement rules and guidance that can affect consultancy bids and delivery contracts.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>AI Governance for Enterprise Clients</h2>
+          <p>For acceptable use, model risk, audit trails, client-facing AI, employee use, and AI assurance.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.nist.gov/artificial-intelligence">NIST AI</a>
+            <p>AI risk frameworks and governance language that enterprise clients may adopt.</p>
+          </div>
+          <div class="source">
+            <a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai">European Commission AI Act</a>
+            <p>Regulatory framing for AI systems, risk categories, obligations, and implementation planning.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.gov.uk/government/publications/ai-regulation-a-pro-innovation-approach">UK AI Regulation Approach</a>
+            <p>UK policy direction for AI governance, assurance, accountability, and sector-led regulation.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Data, Privacy + Transfers</h2>
+          <p>For client data, HR data, cross-border transfers, analytics, cloud platforms, and regulated datasets.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://ico.org.uk/">ICO</a>
+            <p>UK privacy guidance, enforcement signals, and AI/data protection expectations.</p>
+          </div>
+          <div class="source">
+            <a href="https://edpb.europa.eu/edpb_en">European Data Protection Board</a>
+            <p>EU-level guidance on GDPR interpretation, transfers, consent, lawful basis, and enforcement themes.</p>
+          </div>
+          <div class="source">
+            <a href="https://iapp.org/news/">IAPP News</a>
+            <p>Privacy, AI governance, international data transfer, and regulatory analysis.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Cyber Incident + Resilience Law</h2>
+          <p>For breach response, ransomware, notification duties, cyber controls, and supply-chain resilience.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.ncsc.gov.uk/">NCSC UK</a>
+            <p>Practical cyber guidance for boards, professional services, incident readiness, and suppliers.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.cisa.gov/news-events/cybersecurity-advisories">CISA Cybersecurity Advisories</a>
+            <p>Official vulnerability and threat alerts that may trigger client and supplier action.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.enisa.europa.eu/">ENISA</a>
+            <p>EU cybersecurity policy, resilience guidance, and threat landscape reporting.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Public Sector + Government Tech</h2>
+          <p>For digital transformation, procurement frameworks, public AI, outsourcing, and delivery accountability.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.gov.uk/government/organisations/government-digital-service">Government Digital Service</a>
+            <p>UK public-sector digital delivery signals, standards, and service transformation updates.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.nao.org.uk/">National Audit Office</a>
+            <p>Reports on public-sector delivery, technology programmes, value for money, and governance lessons.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.gov.uk/government/organisations/crown-commercial-service">Crown Commercial Service</a>
+            <p>Procurement routes, frameworks, and public buying signals relevant to consultancy work.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Employment + Workforce Tech</h2>
+          <p>For HR AI tools, employee monitoring, algorithmic management, consultants, contractors, and people analytics.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.acas.org.uk/">Acas</a>
+            <p>Workplace guidance that helps frame people-process risk and employment practice expectations.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.gov.uk/government/organisations/department-for-business-and-trade">Department for Business and Trade</a>
+            <p>Employment, labour market, business regulation, and workplace policy updates.</p>
+          </div>
+          <div class="source">
+            <a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/employment/">ICO Employment Guidance</a>
+            <p>Worker monitoring, HR data, recruitment, and employment data protection guidance.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>Competition + Platform Regulation</h2>
+          <p>For cloud dependency, digital markets, platform power, data access, interoperability, and AI ecosystem risk.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.gov.uk/government/organisations/competition-and-markets-authority">Competition and Markets Authority</a>
+            <p>UK competition, digital markets, cloud, platform, and AI market investigations.</p>
+          </div>
+          <div class="source">
+            <a href="https://competition-policy.ec.europa.eu/index_en">European Commission Competition Policy</a>
+            <p>EU antitrust, merger, state aid, digital markets, and platform enforcement updates.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.ftc.gov/policy/advocacy-research/tech-at-ftc">FTC Technology Blog</a>
+            <p>US consumer protection, technology, AI claims, platforms, and market conduct signals.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="box">
+        <div class="box-head">
+          <h2>ESG, Risk + Reporting Tech</h2>
+          <p>For sustainability reporting, auditability, risk platforms, assurance evidence, and greenwashing risk.</p>
+        </div>
+        <div class="sources">
+          <div class="source">
+            <a href="https://www.frc.org.uk/">Financial Reporting Council</a>
+            <p>UK corporate reporting, governance, audit, assurance, and reporting-quality updates.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.ifrs.org/groups/international-sustainability-standards-board/">ISSB</a>
+            <p>Sustainability disclosure standards and reporting frameworks for global companies.</p>
+          </div>
+          <div class="source">
+            <a href="https://www.fca.org.uk/">Financial Conduct Authority</a>
+            <p>UK financial regulation signals on disclosure, greenwashing, governance, and regulated technology.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="page-end" aria-label="End of source board">
+      <p><strong>Legal-ish factoid:</strong> the Statute of Frauds 1677 helped make written evidence central to certain contracts, which is a neat reminder that legal technology is often just the newest chapter in a very old obsession: proving who agreed to what.</p>
+      <a class="home-button" href="#top">Home</a>
+    </section>
+
+    <footer>
+      Built as a source board for a legal-profession technology newsletter. This is not research; it is a catalyst for research into new legal-technology issues. Vendor blogs should be treated as product signals and checked against independent reporting before inclusion as news.
+    </footer>
+  </main>
+  <script>
+    const slugify = (text) => text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+
+    const boards = {};
+    let activeBoardName = "general";
+
+    const setViewMode = (mode) => {
+      const isMobile = mode === "mobile";
+      document.body.classList.toggle("view-mobile", isMobile);
+      document.querySelectorAll(".view-button").forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.viewMode === mode);
+      });
+      Object.values(boards).forEach((board) => board.grid.scrollTo({ left: 0 }));
+    };
+
+    document.querySelectorAll(".board").forEach((grid) => {
+      const boardName = grid.dataset.board;
+      const boxes = Array.from(grid.querySelectorAll(".box"));
+      const miniColumns = document.querySelector(`.mini-columns[data-board-target="${boardName}"]`);
+      boards[boardName] = {
+        grid,
+        boxes,
+        miniColumns,
+        orderedBoxes: [...boxes],
+        isLooping: false
+      };
+
+      boxes.forEach((box, boxIndex) => {
+        const heading = box.querySelector("h2");
+        const links = Array.from(box.querySelectorAll(".source > a"));
+        const boxId = `${boardName}-column-${slugify(heading.textContent) || boxIndex + 1}`;
+        box.id = boxId;
+        box.dataset.board = boardName;
+        box.dataset.realBoxId = boxId;
+
+        const miniColumn = document.createElement("a");
+        miniColumn.className = "mini-column";
+        miniColumn.href = `#${boxId}`;
+        miniColumn.dataset.board = boardName;
+        miniColumn.dataset.target = boxId;
+        miniColumn.dataset.rank = boxIndex + 1;
+        miniColumn.innerHTML = `
+          <span class="mini-title">${heading.textContent}</span>
+          <span class="mini-lines" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </span>
+          <span class="mini-rank">${boxIndex + 1}</span>
+        `;
+        miniColumns.appendChild(miniColumn);
+
+        const index = document.createElement("nav");
+        index.className = "topic-index";
+        index.setAttribute("aria-label", `${heading.textContent} topic index`);
+        index.innerHTML = `
+          <p class="topic-index-title">Topic index</p>
+          <div class="topic-index-links"></div>
+        `;
+
+        const indexLinks = index.querySelector(".topic-index-links");
+        links.forEach((link, sourceIndex) => {
+          const source = link.closest(".source");
+          const sourceId = `${boxId}-${slugify(link.textContent) || sourceIndex + 1}`;
+          source.id = sourceId;
+
+          const jumpLink = document.createElement("a");
+          jumpLink.href = `#${sourceId}`;
+          jumpLink.textContent = link.textContent;
+          indexLinks.appendChild(jumpLink);
+        });
+
+        box.querySelector(".box-head").appendChild(index);
+      });
+    });
+
+    const showBoard = (boardName) => {
+      activeBoardName = boardName;
+      Object.values(boards).forEach((board) => {
+        board.grid.hidden = board.grid.dataset.board !== boardName;
+      });
+    };
+
+    const removeIdsFromLoopCopy = (element) => {
+      element.removeAttribute("id");
+      element.querySelectorAll("[id]").forEach((child) => child.removeAttribute("id"));
+    };
+
+    const renderBoardLoop = (board) => {
+      board.grid.querySelectorAll(".is-loop-copy").forEach((copy) => copy.remove());
+      board.orderedBoxes.forEach((box) => board.grid.appendChild(box));
+
+      const repeatCount = Math.min(5, board.orderedBoxes.length);
+      board.orderedBoxes.slice(0, repeatCount).forEach((box) => {
+        const copy = box.cloneNode(true);
+        removeIdsFromLoopCopy(copy);
+        copy.classList.add("is-loop-copy");
+        copy.dataset.realBoxId = box.id;
+        copy.dataset.board = box.dataset.board;
+        copy.setAttribute("aria-label", `${box.querySelector("h2").textContent} repeated carousel preview`);
+        board.grid.appendChild(copy);
+      });
+    };
+
+    const setActiveMiniColumn = (boardName, boxId) => {
+      document.querySelectorAll(".mini-column").forEach((miniColumn) => {
+        miniColumn.classList.toggle(
+          "is-active",
+          miniColumn.dataset.board === boardName && miniColumn.dataset.target === boxId
+        );
+      });
+    };
+
+    const rotateColumnsTo = (boxId, boardName, updateHash = true) => {
+      const board = boards[boardName];
+      if (!board) return;
+
+      const startIndex = board.boxes.findIndex((box) => box.id === boxId);
+      if (startIndex === -1) return;
+
+      showBoard(boardName);
+      board.orderedBoxes = [...board.boxes.slice(startIndex), ...board.boxes.slice(0, startIndex)];
+      renderBoardLoop(board);
+      board.grid.scrollTo({ left: 0, behavior: "smooth" });
+      setActiveMiniColumn(boardName, boxId);
+
+      if (updateHash) {
+        history.replaceState(null, "", `#${boxId}`);
+      }
+    };
+
+    const updateMiniMap = (boardName) => {
+      const board = boards[boardName];
+      if (!board || board.grid.hidden) return;
+
+      const leftEdge = board.grid.scrollLeft;
+      const maxLeft = board.grid.scrollWidth - board.grid.clientWidth;
+      let activeIndex = 0;
+      let smallestDistance = Infinity;
+
+      const visibleBoxes = Array.from(board.grid.querySelectorAll(".box"));
+      visibleBoxes.forEach((box, index) => {
+        const distance = Math.abs(box.offsetLeft - leftEdge - 16);
+        if (distance < smallestDistance) {
+          smallestDistance = distance;
+          activeIndex = index;
+        }
+      });
+
+      const activeBox = visibleBoxes[activeIndex];
+      setActiveMiniColumn(boardName, activeBox.dataset.realBoxId || activeBox.id);
+
+      if (!board.isLooping && maxLeft > 0 && leftEdge >= maxLeft - 4) {
+        board.isLooping = true;
+        board.grid.scrollTo({ left: 0, behavior: "smooth" });
+        window.setTimeout(() => {
+          board.isLooping = false;
+        }, 350);
+      }
+    };
+
+    document.querySelectorAll(".mini-columns").forEach((miniColumns) => {
+      miniColumns.addEventListener("click", (event) => {
+        const miniColumn = event.target.closest(".mini-column");
+        if (!miniColumn) return;
+
+        event.preventDefault();
+        rotateColumnsTo(miniColumn.dataset.target, miniColumn.dataset.board);
+      });
+    });
+
+    Object.values(boards).forEach(renderBoardLoop);
+
+    document.addEventListener("click", (event) => {
+      const jumpLink = event.target.closest(".topic-index-links a");
+      if (!jumpLink) return;
+
+      const target = document.querySelector(jumpLink.getAttribute("href"));
+      const box = target?.closest(".box");
+      if (!box) return;
+
+      event.preventDefault();
+      rotateColumnsTo(box.id, box.dataset.board);
+      target.scrollIntoView({ block: "nearest", inline: "start", behavior: "smooth" });
+      history.replaceState(null, "", jumpLink.getAttribute("href"));
+    });
+
+    Object.entries(boards).forEach(([boardName, board]) => {
+      board.grid.addEventListener("scroll", () => updateMiniMap(boardName), { passive: true });
+    });
+
+    if (window.location.hash) {
+      const legacyGeneralHash = window.location.hash.replace("#column-", "#general-column-");
+      const legacyCorporateHash = window.location.hash.replace("#column-", "#corporate-column-");
+      const target =
+        document.querySelector(window.location.hash) ||
+        document.querySelector(legacyGeneralHash) ||
+        document.querySelector(legacyCorporateHash);
+      const initialBox = target?.classList.contains("box") ? target : target?.closest(".box");
+      if (initialBox) {
+        rotateColumnsTo(initialBox.id, initialBox.dataset.board, false);
+      }
+    }
+
+    showBoard(activeBoardName);
+    Object.keys(boards).forEach(updateMiniMap);
+
+    document.querySelectorAll(".view-button").forEach((button) => {
+      button.addEventListener("click", () => setViewMode(button.dataset.viewMode));
+    });
+
+    if (window.matchMedia("(max-width: 640px)").matches) {
+      setViewMode("mobile");
+    }
+  </script>
+</body>
+</html>
